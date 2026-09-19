@@ -1,36 +1,15 @@
-import bcrypt from "bcryptjs";
 import { loadLocalEnv } from "./load-env";
-import { connectDB } from "../lib/db";
-import { User } from "../models/User";
+import { seedOwnerIfNeeded } from "../lib/seed-owner";
 
 loadLocalEnv();
 
 async function main() {
-  const email = process.env.SEED_OWNER_EMAIL;
-  const password = process.env.SEED_OWNER_PASSWORD;
-
-  if (!email || !password) {
+  const result = await seedOwnerIfNeeded();
+  if (!result.seeded) {
     throw new Error("Set SEED_OWNER_EMAIL and SEED_OWNER_PASSWORD in .env.local");
   }
 
-  await connectDB();
-
-  const passwordHash = await bcrypt.hash(password, 12);
-  await User.findOneAndUpdate(
-    { email },
-    {
-      $set: {
-        name: "Leadyfy Owner",
-        email,
-        passwordHash,
-        role: "owner",
-        isActive: true,
-      },
-    },
-    { upsert: true, returnDocument: "after" },
-  );
-
-  console.log(`Seeded owner account for ${email}`);
+  console.log(`Seeded owner account for ${result.email}`);
   process.exit(0);
 }
 

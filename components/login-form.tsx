@@ -33,6 +33,10 @@ export function LoginForm() {
         setError(USE_PORTAL_LOGIN_MESSAGE);
         return;
       }
+      if (result.error !== "CredentialsSignin") {
+        setError(result.error);
+        return;
+      }
       setError("Invalid email or password.");
       return;
     }

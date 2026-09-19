@@ -39,7 +39,14 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        await connectDB();
+        try {
+          await connectDB();
+        } catch (error) {
+          console.error("[auth] database connection failed", error);
+          throw new Error(
+            "Database unavailable. On Render set MONGODB_URI and allow Atlas access from 0.0.0.0/0.",
+          );
+        }
 
         if (intent === "portal") {
           const result = await authenticatePortalClient(identifier, password);

@@ -176,5 +176,5 @@ After approval the video is **Delivered** (blocked if the invoice is **Unpaid** 
 
 ---
 
-On Render: `npm install && npm run build`, start with `npm start`. Set `NEXTAUTH_URL=https://laedfyf.onrender.com` (not localhost), plus `NEXTAUTH_SECRET` and `MONGODB_URI`. If `NEXTAUTH_URL` stays `http://localhost:3000`, login returns 401. Uploads on the server disk are lost on restart. Back up MongoDB in Atlas.
+On Render: `npm install && npm run build`, start with `npm start`. Set `NEXTAUTH_URL=https://laedfyf.onrender.com` (not localhost), `NEXTAUTH_SECRET`, `MONGODB_URI`, `SEED_OWNER_EMAIL`, and `SEED_OWNER_PASSWORD`. In Atlas Network Access allow `0.0.0.0/0`. If login still returns 401, the owner is missing or Mongo is blocked. Uploads on the server disk are lost on restart. Back up MongoDB in Atlas.
 
