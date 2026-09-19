@@ -1,6 +1,85 @@
 # Leadyfy OS
 
-App to run the agency: clients, orders, scripts, shoots, videos, money, and a client portal.
+## Owner login
+
+Go to [http://localhost:3000/login](http://localhost:3000/login)
+
+- **Email:** `owner@leadyfy.local`
+- **Password:** `Leadyfy@123`
+
+If this account is missing, run `npm run seed`.
+
+**Two logins**
+
+- Staff (owner / admin / employee): `/login` → email + password
+- Client: `/portal/login` → **client name** + portal password
+
+Do not mix them.
+
+---
+
+## Create a client
+
+1. Login as owner.
+2. **Clients** → **Add client**.
+3. Fill name, company, email, and portal password (8+ letters).
+4. Save.
+
+Client login: `/portal/login` with **name + portal password**.
+
+To change the password later: open the client → **Portal password** → type new password twice → **Set password**. No OTP.
+
+The client can see their orders, scripts, videos, invoices, and tickets. They cannot see staff, creators, or prices.
+
+---
+
+## Create an admin
+
+1. Login as owner.
+2. **Users** → **Add user**.
+3. Set role to `admin`. Add name, email, password.
+4. Save. Sign out.
+5. Login at `/login` with the admin email and password.
+
+Admin can run day-to-day work. Only owner can open **Users**.
+
+---
+
+## Create an employee
+
+1. Login as owner.
+2. **Employees** → **Add employee**.
+3. Add name, email, password, and a job type:
+   - **Sales** — clients and orders
+   - **Script Writer** — scripts
+   - **Shoot Manager** — creators and shoots
+   - **Editor** — videos
+4. Save. Sign out.
+5. Login at `/login` with the employee email and password.
+
+Then assign work: open the client → **Edit** → **Assigned employee** → save. If you skip this, the employee sees no clients.
+
+To change their password: open the employee → **Login password** → **Set password**. No OTP.
+
+---
+
+## Start the app
+
+1. Copy `.env.example` to `.env.local`.
+2. Add `MONGODB_URI` and `NEXTAUTH_SECRET`.
+3. Run `npm run seed` then `npm run dev`.
+4. Open [http://localhost:3000](http://localhost:3000).
+
+```bash
+npm run dev
+npm test
+npm run seed
+```
+
+GraphQL (read only, same login and RBAC as REST): `POST /api/graphql` with `{ "query": "{ me { email } dashboard { pendingScripts } }" }`. REST stays the main API.
+
+
+------App to run the agency: clients, orders, scripts, shoots, videos, money, and a client portal.
 
 ## What this project is
 
@@ -97,84 +176,5 @@ After approval the video is **Delivered** (blocked if the invoice is **Unpaid** 
 
 ---
 
-## Owner login
+On Render: `npm install && npm run build`, start with `npm start`. Set `NEXTAUTH_URL=https://laedfyf.onrender.com` (not localhost), plus `NEXTAUTH_SECRET` and `MONGODB_URI`. If `NEXTAUTH_URL` stays `http://localhost:3000`, login returns 401. Uploads on the server disk are lost on restart. Back up MongoDB in Atlas.
 
-Go to [http://localhost:3000/login](http://localhost:3000/login)
-
-- **Email:** `owner@leadyfy.local`
-- **Password:** `Leadyfy@123`
-
-If this account is missing, run `npm run seed`.
-
-**Two logins**
-
-- Staff (owner / admin / employee): `/login` → email + password
-- Client: `/portal/login` → **client name** + portal password
-
-Do not mix them.
-
----
-
-## Create a client
-
-1. Login as owner.
-2. **Clients** → **Add client**.
-3. Fill name, company, email, and portal password (8+ letters).
-4. Save.
-
-Client login: `/portal/login` with **name + portal password**.
-
-To change the password later: open the client → **Portal password** → type new password twice → **Set password**. No OTP.
-
-The client can see their orders, scripts, videos, invoices, and tickets. They cannot see staff, creators, or prices.
-
----
-
-## Create an admin
-
-1. Login as owner.
-2. **Users** → **Add user**.
-3. Set role to `admin`. Add name, email, password.
-4. Save. Sign out.
-5. Login at `/login` with the admin email and password.
-
-Admin can run day-to-day work. Only owner can open **Users**.
-
----
-
-## Create an employee
-
-1. Login as owner.
-2. **Employees** → **Add employee**.
-3. Add name, email, password, and a job type:
-   - **Sales** — clients and orders
-   - **Script Writer** — scripts
-   - **Shoot Manager** — creators and shoots
-   - **Editor** — videos
-4. Save. Sign out.
-5. Login at `/login` with the employee email and password.
-
-Then assign work: open the client → **Edit** → **Assigned employee** → save. If you skip this, the employee sees no clients.
-
-To change their password: open the employee → **Login password** → **Set password**. No OTP.
-
----
-
-## Start the app
-
-1. Copy `.env.example` to `.env.local`.
-2. Add `MONGODB_URI` and `NEXTAUTH_SECRET`.
-3. Run `npm run seed` then `npm run dev`.
-4. Open [http://localhost:3000](http://localhost:3000).
-
-```bash
-npm run dev
-npm test
-npm run seed
-```
-
-GraphQL (read only, same login and RBAC as REST): `POST /api/graphql` with `{ "query": "{ me { email } dashboard { pendingScripts } }" }`. REST stays the main API.
-
-## Deploy (short)
-
-On Render: `npm install && npm run build`, start with `npm start`. Set `NEXTAUTH_URL`, `NEXTAUTH_SECRET`, and `MONGODB_URI`. Uploads on the server disk are lost on restart. Back up MongoDB in Atlas.

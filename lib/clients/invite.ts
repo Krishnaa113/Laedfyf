@@ -25,13 +25,16 @@ export function inviteExpiry(from = new Date()) {
 
 export function publicAppOrigin(request?: Request) {
   const configured = process.env.NEXTAUTH_URL?.trim().replace(/\/$/, "");
-  if (configured) {
+  const looksLocal =
+    !configured ||
+    /localhost|127\.0\.0\.1/i.test(configured);
+  if (configured && !looksLocal) {
     return configured;
   }
   if (request) {
     return new URL(request.url).origin;
   }
-  return "http://localhost:3000";
+  return configured || "http://localhost:3000";
 }
 
 export function inviteLink(origin: string, token: string) {

@@ -1,3 +1,4 @@
+import { ensureAuthUrl } from "@/lib/auth-url";
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
@@ -12,8 +13,11 @@ import { Client } from "@/models/Client";
 import { Employee } from "@/models/Employee";
 import type { EmployeeSubRole, Permission, UserRole } from "@/lib/roles";
 
+const authOrigin = ensureAuthUrl();
+
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
+  useSecureCookies: authOrigin.startsWith("https://"),
   session: { strategy: "jwt" },
   pages: { signIn: "/login" },
   providers: [
