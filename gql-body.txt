@@ -1,0 +1,1 @@
+{"ok":true,"endpoint":"/api/graphql","method":"POST","note":"REST stays the app API. Send a signed-in POST { query, variables }."}
