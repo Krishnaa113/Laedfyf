@@ -73,13 +73,10 @@ async function applyDelivery(
   existing.revisionPriority = false;
   existing.revisionRequestedAt = null;
   if (input.feedback) {
-    if (!Array.isArray(existing.feedbackLog)) {
-      existing.feedbackLog = [];
-    }
     existing.feedbackLog.push({
       ...input.feedback,
       createdAt: new Date(),
-    } as never);
+    });
   }
   await existing.save({ session });
 
@@ -121,10 +118,7 @@ export async function deliverVideoInTransaction(input: {
 }) {
   const session = await startDbSession();
   try {
-    let result: Awaited<ReturnType<typeof applyDelivery>> | null = null;
-    await session.withTransaction(async () => {
-      result = await applyDelivery(session, input);
-    });
+    const result = await session.withTransaction(() => applyDelivery(session, input));
     if (!result) {
       throw new DeliveryError(500, "Delivery did not complete");
     }

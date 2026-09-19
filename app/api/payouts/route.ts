@@ -75,7 +75,7 @@ export async function POST(request: Request) {
   try {
     const created = await CreatorPayout.create({
       creatorId: parsed.data.creatorId,
-      orderId: parsed.data.orderId ?? null,
+      orderId: parsed.data.orderId ?? undefined,
       videoId: parsed.data.videoId,
       videoCount,
       contractedRate,

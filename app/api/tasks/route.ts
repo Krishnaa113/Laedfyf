@@ -130,11 +130,11 @@ export async function POST(request: Request) {
   const created = await Task.create({
     title: parsed.data.title,
     description: parsed.data.description,
-    assigneeId: parsed.data.assigneeId ?? null,
+    assigneeId: parsed.data.assigneeId ?? undefined,
     createdById: mongoose.Types.ObjectId.isValid(auth.session.user.id)
       ? auth.session.user.id
-      : null,
-    clientId: related.clientId,
+      : undefined,
+    clientId: related.clientId ?? undefined,
     relatedTo: related.relatedTo
       ? { type: related.relatedTo.type, id: related.relatedTo.id }
       : { type: null, id: null },

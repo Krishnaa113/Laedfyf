@@ -145,10 +145,37 @@ export function serializeOptions(user: { role?: string | null }) {
   return { audience: audienceFor(user) };
 }
 
+export type SerializedOrder = {
+  id: string;
+  clientId: string | null;
+  clientName: string;
+  companyName: string;
+  packageName: string;
+  contractedVideoCount: number;
+  status: ReturnType<typeof normalizeOrderStatus>;
+  production: ProductionCounter;
+  orderedVideos: number;
+  assignedVideos: number;
+  completedVideos: number;
+  deliveredVideos: number;
+  remainingQuota: number;
+  startDate: string | null;
+  dueDate: string | null;
+  createdAt: string | null;
+  updatedAt: string | null;
+  assignedEmployeeIds: string[];
+  assignedTeam: { id: string; name: string }[];
+  pricing?: number;
+  gstTax?: number;
+  totalInvoiceAmount?: number;
+  amountReceived?: number;
+  outstandingBalance?: number;
+};
+
 export function serializeOrder(
   doc: Record<string, unknown> | null,
   options: { audience?: SerializeAudience } = {},
-) {
+): SerializedOrder | null {
   if (!doc) {
     return null;
   }
@@ -814,7 +841,6 @@ export function serializeCreatorAvailability(doc: Record<string, unknown> | null
 }
 
 export type SerializedClient = NonNullable<ReturnType<typeof serializeClient>>;
-export type SerializedOrder = NonNullable<ReturnType<typeof serializeOrder>>;
 export type SerializedScript = NonNullable<ReturnType<typeof serializeScript>>;
 export type SerializedShoot = NonNullable<ReturnType<typeof serializeShoot>>;
 export type SerializedVideo = NonNullable<ReturnType<typeof serializeVideo>>;

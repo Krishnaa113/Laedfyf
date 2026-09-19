@@ -78,10 +78,10 @@ export async function POST(request: Request) {
 
   const created = await SupportTicket.create({
     clientId,
-    orderId: parsed.data.orderId ?? null,
+    orderId: parsed.data.orderId ?? undefined,
     openedById: mongoose.Types.ObjectId.isValid(auth.session.user.id)
       ? auth.session.user.id
-      : null,
+      : undefined,
     subject: parsed.data.subject,
     body: parsed.data.body,
     status: "Open",

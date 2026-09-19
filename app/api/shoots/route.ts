@@ -161,11 +161,11 @@ export async function POST(request: Request) {
 
   const created = await Shoot.create({
     clientId: parsed.data.clientId,
-    orderId: orderId.value ?? null,
-    creatorId: creatorId.value ?? null,
-    cameramanId: cameramanId.value ?? null,
-    shootManagerId: shootManagerId.value ?? null,
-    assistantId: assistantId.value ?? null,
+    orderId: orderId.value ?? undefined,
+    creatorId: creatorId.value ?? undefined,
+    cameramanId: cameramanId.value ?? undefined,
+    shootManagerId: shootManagerId.value ?? undefined,
+    assistantId: assistantId.value ?? undefined,
     approvedScriptIds: approvedScriptIds.value ?? [],
     location: parsed.data.location,
     scheduledAt: window.scheduledAt,

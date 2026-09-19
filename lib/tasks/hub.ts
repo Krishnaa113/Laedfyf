@@ -114,33 +114,34 @@ export async function assertTaskRelatedTo(input: {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return { ok: false, status: 400, error: "Invalid related id" };
   }
+  const relatedType = type as TaskRelatedType;
 
-  if (type === "Client") {
+  if (relatedType === "Client") {
     const client = await Client.findById(id).lean();
     if (!client) {
       return { ok: false, status: 404, error: "Client not found" };
     }
-    return { ok: true, relatedTo: { type, id }, clientId: String(client._id) };
+    return { ok: true, relatedTo: { type: relatedType, id }, clientId: String(client._id) };
   }
-  if (type === "Order") {
+  if (relatedType === "Order") {
     const order = await Order.findById(id).lean();
     if (!order) {
       return { ok: false, status: 404, error: "Order not found" };
     }
     return {
       ok: true,
-      relatedTo: { type, id },
+      relatedTo: { type: relatedType, id },
       clientId: order.clientId ? String(order.clientId) : null,
     };
   }
-  if (type === "Script") {
+  if (relatedType === "Script") {
     const script = await Script.findById(id).lean();
     if (!script) {
       return { ok: false, status: 404, error: "Script not found" };
     }
     return {
       ok: true,
-      relatedTo: { type, id },
+      relatedTo: { type: relatedType, id },
       clientId: script.clientId ? String(script.clientId) : null,
     };
   }
@@ -151,7 +152,7 @@ export async function assertTaskRelatedTo(input: {
   }
   return {
     ok: true,
-    relatedTo: { type, id },
+    relatedTo: { type: relatedType, id },
     clientId: video.clientId ? String(video.clientId) : null,
   };
 }

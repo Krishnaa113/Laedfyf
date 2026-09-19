@@ -97,7 +97,7 @@ export async function loadDashboardHub(auth: AuthOk): Promise<DashboardHub> {
   const includeFinance = canAccess(auth.session.user, "analytics", "read");
   const openTaskFilter = {
     ...related,
-    status: { $in: ["To Do", "In Progress"] },
+    status: { $in: ["To Do", "In Progress"] as const },
   };
 
   const [

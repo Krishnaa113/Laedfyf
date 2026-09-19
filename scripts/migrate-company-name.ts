@@ -25,7 +25,13 @@ async function migrateCollection(
   let updated = 0;
 
   for (const doc of docs) {
-    const companyName = canonicalName(doc);
+    const companyName = canonicalName(
+      doc as {
+        companyName?: unknown;
+        company_name?: unknown;
+        company?: unknown;
+      },
+    );
     await collection.updateOne(
       { _id: doc._id },
       keepCanonicalField

@@ -86,7 +86,7 @@ export async function POST(request: Request) {
     amount: parsed.data.amount,
     userId: mongoose.Types.ObjectId.isValid(auth.session.user.id)
       ? auth.session.user.id
-      : null,
+      : undefined,
     date: parsed.data.date ?? new Date().toISOString(),
     receiptUrl,
     notes: parsed.data.notes,

@@ -16,6 +16,10 @@ export function objectIdRef(
   };
 }
 
+export function optionalObjectId(value: string | null | undefined) {
+  return value ? value : undefined;
+}
+
 export function objectIdRefList(model: string) {
   return [
     {

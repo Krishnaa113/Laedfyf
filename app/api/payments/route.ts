@@ -81,7 +81,7 @@ export async function POST(request: Request) {
 
   const created = await Payment.create({
     clientId: parsed.data.clientId,
-    orderId: parsed.data.orderId ?? null,
+    orderId: parsed.data.orderId ?? undefined,
     invoiceAmount: parsed.data.invoiceAmount,
     amountReceived: parsed.data.amountReceived,
     paymentDate: parsed.data.paymentDate ?? null,
